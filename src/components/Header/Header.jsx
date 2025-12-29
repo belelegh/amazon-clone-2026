@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import classes from "../Header/Header.module.css";
+import classes from "./Header.module.css";
 import { Link } from "react-router-dom";
 import LowerHeader from "./LowerHeader";
 import { BsSearch } from "react-icons/bs";
