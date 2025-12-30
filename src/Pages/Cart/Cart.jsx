@@ -33,6 +33,8 @@ function Cart() {
     });
   };
 
+
+
   return (
     <Layout>
       <section className={classes.container}>
@@ -116,7 +118,7 @@ function Cart() {
                 <span className={classes.subtotal_amount}>${subtotal}</span>
               </div>
 
-              <button className={classes.checkout_button}>
+              <button  className={classes.checkout_button}>
                 Proceed to Checkout
               </button>
 

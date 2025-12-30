@@ -4,7 +4,7 @@ import Routing from "./Router"
 function App() {
   useEffect(() => {
     // Log any weird navigation attempts
-    console.log("App mounted");
+    // console.log("App mounted");
   }, []);
   return (
     <>
