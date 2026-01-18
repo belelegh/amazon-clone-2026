@@ -1,0 +1,105 @@
+.payment {
+  background-color: #f3f3f3;
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
+.payment__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.payment__container h1 {
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 24px;
+  background-color: rgb(234, 237, 237);
+}
+
+.payment__section {
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid lightgray;
+  padding: 20px 0;
+}
+
+.payment__section img {
+  width: 80px !important;
+}
+
+.payment__section div {
+  height: auto !important;
+}
+
+.payment__title h3 {
+  margin: 0 0 10px 0;
+}
+
+.payment__address p,
+.payment__items,
+.payment__details {
+  margin: 5px 0;
+}
+
+.payment__items {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.payment__details form {
+  width: 400px;
+}
+
+.payment__priceContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.payment__priceContainer button {
+  background-color: #f0c14b;
+  border: 1px solid;
+  border-color: #a88734 #9c7e31 #846a29;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.payment__priceContainer button:hover {
+  background-color: #ddb347;
+}
+
+.payment__priceContainer button:disabled {
+  background-color: lightgray;
+  cursor: not-allowed;
+}
+
+.payment__error {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .payment__container {
+    padding: 15px;
+  }
+
+  .payment__priceContainer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .payment__priceContainer button {
+    width: 100%;
+  }
+}

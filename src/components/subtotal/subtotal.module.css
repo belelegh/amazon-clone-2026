@@ -1,0 +1,38 @@
+.subtotal {
+  width: 280px;
+  padding: 20px;
+  background: #f3f3f3;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.subtotal p {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.subtotal strong {
+  font-weight: 700;
+}
+
+.gift {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.checkoutBtn {
+  width: 100%;
+  padding: 10px;
+  background: #f0c14b;
+  border: 1px solid #a88734;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.checkoutBtn:hover {
+  background: #ddb347;
+}

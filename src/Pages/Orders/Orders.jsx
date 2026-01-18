@@ -1,14 +1,98 @@
-import React from 'react'
-import Layout from '../../components/Layout/Layout';
+
+import React, { useEffect, useState } from "react";
+import CurrencyFormat from "../../Components/CurrencyFormat/CurrencyFormat";
+import { axiosInstance } from "../../API/axios";
+import classes from "./orders.module.css";
+
 function Orders() {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await axiosInstance.get("/orders");
+        setOrders(res.data);
+      } catch (error) {
+        console.error("Failed to fetch orders:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className={classes.container}>
+        <div className={classes.orders}>
+          <h2>Your Orders</h2>
+          <p>Loading orders...</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <Layout>
-      <div>Orders</div>
-    </Layout>
+    <section className={classes.container}>
+      <div className={classes.orders}>
+        <h2>Your Orders</h2>
+
+        {orders.length === 0 && <p>No orders yet.</p>}
+
+        {orders.map((order) => (
+          <div key={order.id} className={classes.orders__order}>
+            {order.basket.map((item) => (
+              <div key={item.id} className={classes.orderItem}>
+                {/* LEFT: Image */}
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className={classes.orderItem__image}
+                />
+
+                {/* RIGHT: Details stacked vertically */}
+                <div className={classes.orderItem__details}>
+                  <p>
+                    <strong>Order ID:</strong> {order.id}
+                  </p>
+
+                  <p>
+                    <strong>Date:</strong>{" "}
+                    {order.created?.seconds
+                      ? new Date(order.created.seconds * 1000).toLocaleString()
+                      : "N/A"}
+                  </p>
+
+                  <p className={classes.orderItem__title}>{item.title}</p>
+
+                  <CurrencyFormat amount={item.price} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
-export default Orders
+export default Orders;
+
+
+
+// import React from 'react'
+// import Layout from '../../components/Layout/Layout';
+// function Orders() {
+//   return (
+//     <Layout>
+//       <div>Orders</div>
+//     </Layout>
+//   );
+// }
+
+// export default Orders
 // import React, { useContext, useState, useEffect } from "react";
 // import Layout from "../../components/Layout/Layout";
 // import { DataContext } from "../../components/DataProvider/DataProvider";

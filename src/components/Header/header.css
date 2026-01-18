@@ -1,0 +1,224 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* HEADER CONTAINER */
+.header__container {
+  background-color: #131921;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  color: white;
+}
+
+/* -------------------------------
+          LEFT SIDE
+--------------------------------*/
+.logo__container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.headerLogo {
+  width: 110px;
+  object-fit: contain;
+}
+
+.delivery {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  border: 1px solid transparent;
+}
+
+.delivery:hover {
+  border: 1px solid white;
+  border-radius: 3px;
+}
+
+.delivery p {
+  font-size: 12px;
+  color: #ddd;
+}
+
+.delivery span {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* -------------------------------
+            SEARCH BAR
+--------------------------------*/
+.search {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 700px;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Dropdown */
+.search select {
+  background: #e6e6e6;
+  border: none;
+  padding: 13px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.search select:hover {
+  background: #d5d5d5;
+}
+
+/* Input */
+.search input {
+  flex: 1;
+  border: none;
+  padding: 10px 12px;
+  font-size: 16px;
+  outline: none;
+}
+
+/* SEARCH ICON BUTTON */
+.searchIcon {
+  background: #ffff; /* Amazon yellow */
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchIcon:hover {
+  background: #f3a847;
+}
+
+.searchIcon svg {
+  font-size: 24px;
+  color: black; /* Makes the icon visible */
+}
+
+/* -------------------------------
+            RIGHT SIDE
+--------------------------------*/
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+/* Language block */
+.lang {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.lang:hover {
+  border: 1px solid white;
+  border-radius: 3px;
+}
+
+.lang img {
+  width: 26px;
+  height: 18px;
+  object-fit: cover;
+}
+
+/* Account + Orders links */
+.header__right a {
+  color: white;
+  text-decoration: none;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.header__right a:hover {
+  border: 1px solid white;
+  border-radius: 3px;
+}
+
+.header__right a p {
+  font-size: 12px;
+  color: #ccc;
+}
+
+.header__right a span {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* -------------------------------
+            CART
+--------------------------------*/
+.cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 4px 1px;
+  border: 1px solid transparent;
+}
+
+.cart:hover {
+  border: 1px solid white;
+  border-radius: 3px;
+}
+
+.cartIconWrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+
+.cartIcon {
+  font-size: 32px;
+  color: white;
+}
+
+/* Cart count badge positioned above the cart */
+.cartCount {
+  position: absolute;
+  top: -4px; /* move badge above the cart icon */
+  color: rgb(246, 243, 243);
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  min-width: 16px;
+  text-align: center;
+}
+@media screen and (max-width: 576px) {
+  .header__container {
+    display: flex;
+    flex-direction: column !important;
+    height: auto;
+  }
+  .lower__container ul li:not(:first-child) {
+    display: none;
+  }
+  .lang {
+    display: none;
+  }
+}
+.fixed {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
