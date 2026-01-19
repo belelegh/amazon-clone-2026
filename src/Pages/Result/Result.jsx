@@ -6,7 +6,7 @@ import Loader from "../../Components/Loader/Loader";
 import { productURL } from "../../API/EndPoints";
 import classes from "./Results.module.css";
 
-function Results() {
+function Result() {
   let { categoryName } = useParams();
   categoryName = decodeURIComponent(categoryName);
 
@@ -66,7 +66,7 @@ function Results() {
   );
 }
 
-export default Results;
+export default Result;
 
 
 

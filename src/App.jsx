@@ -1,8 +1,8 @@
 import React, { useEffect, useContext } from "react";
 import Routings from "./Routings";
-import { DataContext } from "./components/DataProvider/DataContext";
-import { Type } from "./utility/action.Type";
-import { auth } from "./utility/firebase";
+import { DataContext } from "./Components/DataProvider/DataContext";
+import { Type } from "./Utility/action.Type";
+import { auth } from "./Utility/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 function App() {

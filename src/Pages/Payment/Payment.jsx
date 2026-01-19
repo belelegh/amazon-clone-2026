@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
-import { DataContext } from "../../components/DataProvider/DataProvider";
+import { DataContext } from "../../Components/DataProvider/DataProvider";
 import ProductCard from "../../Components/Product/ProductCard";
-import CurrencyFormat from "../../components/CurrencyFormat/CurrencyFormat";
+import CurrencyFormat from "../../Components/CurrencyFormat/CurrencyFormat";
 import Loader from "../../Components/Loader/Loader";
 
 import classes from "./payment.module.css";

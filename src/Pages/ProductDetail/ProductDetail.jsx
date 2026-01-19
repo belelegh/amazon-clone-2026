@@ -5,7 +5,7 @@ import { productURL } from "../../API/EndPoints";
 import ProductCard from "../../Components/Product/ProductCard";
 import Loader from "../../Components/Loader/Loader";
 
-function ProductDetails() {
+function ProductDetail() {
   const { productId } = useParams();
   const [IsLoading, setIsLoading] = useState(false);
   const [product, setProduct] = useState(null);
@@ -39,7 +39,7 @@ function ProductDetails() {
   );
 }
 
-export default ProductDetails;
+export default ProductDetail;
 
 // import React, { useEffect } from 'react'
 // import Layout from '../../components/Layout/Layout'

@@ -3,7 +3,7 @@ import ProductCard from "../../Components/Product/ProductCard";
 import { DataContext } from "../../Components/DataProvider/DataContext";
 import classes from "./cart.module.css";
 // import CurrencyFormat from "../../Components/CurrencyFormat/CurrencyFormat";
-import { Type } from "../../utility/action.Type";
+import { Type } from "../../Utility/action.Type";
 import Subtotal from "../../Components/Subtotal/Subtotal";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";

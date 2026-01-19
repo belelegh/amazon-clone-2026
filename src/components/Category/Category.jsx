@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CategoryCard from "./CategoryCard";
-import classes from "./categoryCard.module.css";
+import classes from "./CategoryCard.module.css";
 
 function Category() {
   const [categories, setCategories] = useState([]);

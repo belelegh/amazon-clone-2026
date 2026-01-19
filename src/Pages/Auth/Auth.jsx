@@ -7,7 +7,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { ClipLoader } from "react-spinners";
-import { DataContext } from "../../components/DataProvider/DataProvider";
+import { DataContext } from "../../Components/DataProvider/DataProvider";
 import { Type } from "../../utility/action.Type";
 function Auth() {
   const [email, setEmail] = useState("");

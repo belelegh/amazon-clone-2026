@@ -3,8 +3,8 @@ import Rating from "@mui/material/Rating";
 import CurrencyFormat from "../CurrencyFormat/CurrencyFormat";
 import classes from "./product.module.css";
 import { Link } from "react-router-dom";
-import { DataContext } from ".././DataProvider/DataContext";
-import { Type } from "../../utility/action.Type";
+import { DataContext } from "../DataProvider/DataContext";
+import { Type } from "../../Utility/action.Type";
 
 function ProductCard({ product, flex, renderDesc, renderAddBtn }) {
   const { id, image, title, rating, price, description } = product;

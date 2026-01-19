@@ -5,8 +5,8 @@ import Landing from "./Pages/Landing/Landing";
 import Payment from "./Pages/Payment/Payment";
 import Orders from "./Pages/Orders/Orders";
 import Cart from "./Pages/Cart/Cart";
-import Results from "./Pages/Results/Results";
-import ProductDetails from "./Pages/ProductDetails/ProductDetails";
+import Results from "./Pages/Result/Result";
+import ProductDetails from "./Pages/ProductDetail/ProductDetail";
 import Auth from "./Pages/Auth/Auth";
 
 import { Elements } from "@stripe/react-stripe-js";
