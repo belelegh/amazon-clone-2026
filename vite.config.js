@@ -4,5 +4,8 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 
 export default defineConfig({
-  plugins: [react()],
+
+  base: '/amazon-clone-2026/',
+
+ gi plugins: [react()],
 })

@@ -1,7 +1,7 @@
 {
   
   "name": "my-react-app",
-  
+  "homepage": "https://github.com/belelegh/amazon-clone-2026.git",
   "private": true,
   
   "version": "0.0.0",
@@ -15,7 +15,8 @@
   
     
   "build": "vite build",
-  
+   "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     
   "lint": "eslint .",
   
