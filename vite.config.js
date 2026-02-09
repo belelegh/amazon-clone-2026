@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
 
-  base: '/amazon-clone-2026/',
+base: '/amazon-clone-2026/',
 
- gi plugins: [react()],
+plugins: [react()],
 })
