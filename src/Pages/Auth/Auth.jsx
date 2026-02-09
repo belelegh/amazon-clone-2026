@@ -1,14 +1,15 @@
 import React, { useContext, useState } from "react";
 import classes from "./Signup.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../utility/firebase";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { ClipLoader } from "react-spinners";
-import { DataContext } from "../../Components/DataProvider/DataContext";
-import { Type } from "../../utility/action.Type";
+import { DataContext } from "../../Components/DataProvider/DataProvider";
+import { Type } from "../../utility/action.type";
+
 function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,12 +18,34 @@ function Auth() {
     signIn: false,
     signUP: false
   });
-const { user, dispatch } = useContext(DataContext);
-
-  //  const [{ user}, dispatch] = useContext(DataContext)
+  
+  // ✅ SAFE CONTEXT ACCESS
+  const context = useContext(DataContext);
+  const navigate = useNavigate();
+  
+  console.log("Auth - DataContext value:", context); // Debug log
+  
+  // Handle missing or invalid context
+  let dispatch = () => {};
+  let user = null;
+  
+  if (context) {
+    if (Array.isArray(context)) {
+      // Array format: [state, dispatch]
+      const [state, contextDispatch] = context;
+      dispatch = contextDispatch;
+      user = state?.user || null;
+    } else if (typeof context === 'object' && context !== null) {
+      // Object format: { state, dispatch }
+      dispatch = context.dispatch || (() => {});
+      user = context.state?.user || null;
+    }
+  } else {
+    console.warn("DataContext is null/undefined. Check DataProvider setup.");
+  }
 
   const handleSignIn = async (e) => {
-    e?.preventDefault();
+    if (e) e.preventDefault();
     setError("");
     
     if (!email || !password) {
@@ -33,20 +56,28 @@ const { user, dispatch } = useContext(DataContext);
     try {
       setLoading({...loading, signIn: true});
       const userInfo = await signInWithEmailAndPassword(auth, email, password);
-      console.log(userInfo);
-      dispatch({
-        type: Type.SET_USER,
-        user: userInfo.user,
-      });
+      console.log("Sign in successful:", userInfo);
+      
+      // Only dispatch if context is available
+      if (dispatch) {
+        dispatch({
+          type: Type.SET_USER,
+          user: userInfo.user,
+        });
+      }
+      
       setLoading({...loading, signIn: false});
+      navigate("/");
+      
     } catch (err) {
+      console.error("Sign in error:", err);
       setError(err.message);
       setLoading({ ...loading, signIn: false });
     }
   };
 
   const handleSignUp = async (e) => {
-    e?.preventDefault();
+    if (e) e.preventDefault();
     setError("");
     
     if (!email || !password) {
@@ -57,54 +88,23 @@ const { user, dispatch } = useContext(DataContext);
     try {
       setLoading({...loading, signUP: true});
       const userInfo = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(userInfo);
-      dispatch({
-        type: Type.SET_USER,
-        user: userInfo.user,
-      });
+      console.log("Sign up successful:", userInfo);
+      
+      // Only dispatch if context is available
+      if (dispatch) {
+        dispatch({
+          type: Type.SET_USER,
+          user: userInfo.user,
+        });
+      }
+      
       setLoading({...loading, signUP: false});
+      navigate("/");
+      
     } catch (err) {
+      console.error("Sign up error:", err);
       setError(err.message);
       setLoading({ ...loading, signUP: false });
-    }
-  };
-
-  const authHandler = async (e) => {
-    e.preventDefault();
-    setError("");
-    
-    if (!email || !password) {
-      setError("Please enter both email and password");
-      return;
-    }
-    
-    const buttonName = e.nativeEvent.submitter?.name || e.target.name;
-    
-    try {
-      if (buttonName === "signin") {
-        setLoading({...loading, signIn: true});
-        const userInfo = await signInWithEmailAndPassword(auth, email, password);
-        dispatch({
-          type: Type.SET_USER,
-          user: userInfo.user,
-        });
-        setLoading({...loading, signIn: false});
-      } else {
-        setLoading({...loading, signUP: true});
-        const userInfo = await createUserWithEmailAndPassword(auth, email, password);
-        dispatch({
-          type: Type.SET_USER,
-          user: userInfo.user,
-        });
-        setLoading({...loading, signUP: false});
-      }
-    } catch (err) {
-      setError(err.message);
-      if (buttonName === "signin") {
-        setLoading({ ...loading, signIn: false });
-      } else {
-        setLoading({ ...loading, signUP: false });
-      }
     }
   };
 
@@ -112,7 +112,7 @@ const { user, dispatch } = useContext(DataContext);
     <section className={classes.login}>
       <div className={classes.logo_container}>
         <img 
-          src="https://pngimg.com/uploads/amazon/amazon_PNG6.png" 
+          src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
           alt="Amazon Logo" 
           className={classes.logo}
         />
@@ -122,7 +122,8 @@ const { user, dispatch } = useContext(DataContext);
           
           {error && <p className={classes.error}>{error}</p>}
           
-          <form onSubmit={authHandler}>
+          {/* Sign In Form */}
+          <form onSubmit={handleSignIn}>
             <div className={classes.input_group}>
               <label htmlFor="email">Email</label>
               <input 
@@ -132,8 +133,10 @@ const { user, dispatch } = useContext(DataContext);
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={loading.signIn || loading.signUP}
                 required
+                placeholder="Enter your email"
               />
             </div>
+            
             <div className={classes.input_group}>
               <label htmlFor="password">Password</label>
               <input 
@@ -143,12 +146,12 @@ const { user, dispatch } = useContext(DataContext);
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={loading.signIn || loading.signUP}
                 required
+                placeholder="Enter your password"
               />
             </div>
             
             <button 
               type="submit"
-              name="signin"
               className={classes.login_signinbutton}
               disabled={loading.signIn || loading.signUP}
             >
@@ -161,22 +164,27 @@ const { user, dispatch } = useContext(DataContext);
           </form>
           
           <p className={classes.terms}>
-            By signing in you agree to the AMAZON FAKE CLONE Conditions of use and
-            sale. Please see our Privacy Notice, our Cookie Notice and our
-            Interest-Based Ads Notice.
+            By signing in you agree to Amazon's Conditions of Use and Privacy Notice.
           </p>
           
-          <button 
-            onClick={handleSignUp}
-            className={classes.login_registerbutton}
-            disabled={loading.signIn || loading.signUP}
-          >
-            {loading.signUP ? (
-              <ClipLoader color="#000" size={15} />
-            ) : (
-              "Create your Amazon Account"
-            )}
-          </button>
+          <div className={classes.divider}>
+            <span>New to Amazon?</span>
+          </div>
+          
+          {/* Sign Up Form */}
+          <form onSubmit={handleSignUp}>
+            <button 
+              type="submit"
+              className={classes.login_registerbutton}
+              disabled={loading.signIn || loading.signUP}
+            >
+              {loading.signUP ? (
+                <ClipLoader color="#000" size={15} />
+              ) : (
+                "Create your Amazon Account"
+              )}
+            </button>
+          </form>
           
           <Link to="/" className={classes.back_home}>
             ← Back to home
@@ -188,6 +196,198 @@ const { user, dispatch } = useContext(DataContext);
 }
 
 export default Auth;
+
+
+// import React, { useContext, useState } from "react";
+// import classes from "./Signup.module.css";
+// import { Link } from "react-router-dom";
+// import { auth } from "../../utility/firebase";
+// import {
+//   signInWithEmailAndPassword,
+//   createUserWithEmailAndPassword,
+// } from "firebase/auth";
+// import { ClipLoader } from "react-spinners";
+// import { DataContext } from "../../Components/DataProvider/DataContext";
+// import { Type } from "../../utility/action.Type";
+// function Auth() {
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [error, setError] = useState("");
+//   const [loading, setLoading] = useState({
+//     signIn: false,
+//     signUP: false
+//   });
+// const { user, dispatch } = useContext(DataContext);
+
+//   //  const [{ user}, dispatch] = useContext(DataContext)
+
+//   const handleSignIn = async (e) => {
+//     e?.preventDefault();
+//     setError("");
+    
+//     if (!email || !password) {
+//       setError("Please enter both email and password");
+//       return;
+//     }
+    
+//     try {
+//       setLoading({...loading, signIn: true});
+//       const userInfo = await signInWithEmailAndPassword(auth, email, password);
+//       console.log(userInfo);
+//       dispatch({
+//         type: Type.SET_USER,
+//         user: userInfo.user,
+//       });
+//       setLoading({...loading, signIn: false});
+//     } catch (err) {
+//       setError(err.message);
+//       setLoading({ ...loading, signIn: false });
+//     }
+//   };
+
+//   const handleSignUp = async (e) => {
+//     e?.preventDefault();
+//     setError("");
+    
+//     if (!email || !password) {
+//       setError("Please enter both email and password");
+//       return;
+//     }
+    
+//     try {
+//       setLoading({...loading, signUP: true});
+//       const userInfo = await createUserWithEmailAndPassword(auth, email, password);
+//       console.log(userInfo);
+//       dispatch({
+//         type: Type.SET_USER,
+//         user: userInfo.user,
+//       });
+//       setLoading({...loading, signUP: false});
+//     } catch (err) {
+//       setError(err.message);
+//       setLoading({ ...loading, signUP: false });
+//     }
+//   };
+
+//   const authHandler = async (e) => {
+//     e.preventDefault();
+//     setError("");
+    
+//     if (!email || !password) {
+//       setError("Please enter both email and password");
+//       return;
+//     }
+    
+//     const buttonName = e.nativeEvent.submitter?.name || e.target.name;
+    
+//     try {
+//       if (buttonName === "signin") {
+//         setLoading({...loading, signIn: true});
+//         const userInfo = await signInWithEmailAndPassword(auth, email, password);
+//         dispatch({
+//           type: Type.SET_USER,
+//           user: userInfo.user,
+//         });
+//         setLoading({...loading, signIn: false});
+//       } else {
+//         setLoading({...loading, signUP: true});
+//         const userInfo = await createUserWithEmailAndPassword(auth, email, password);
+//         dispatch({
+//           type: Type.SET_USER,
+//           user: userInfo.user,
+//         });
+//         setLoading({...loading, signUP: false});
+//       }
+//     } catch (err) {
+//       setError(err.message);
+//       if (buttonName === "signin") {
+//         setLoading({ ...loading, signIn: false });
+//       } else {
+//         setLoading({ ...loading, signUP: false });
+//       }
+//     }
+//   };
+
+//   return (
+//     <section className={classes.login}>
+//       <div className={classes.logo_container}>
+//         <img 
+//           src="https://pngimg.com/uploads/amazon/amazon_PNG6.png" 
+//           alt="Amazon Logo" 
+//           className={classes.logo}
+//         />
+        
+//         <div className={classes.form_container}>
+//           <h1>Sign In</h1>
+          
+//           {error && <p className={classes.error}>{error}</p>}
+          
+//           <form onSubmit={authHandler}>
+//             <div className={classes.input_group}>
+//               <label htmlFor="email">Email</label>
+//               <input 
+//                 type="email" 
+//                 id="email"
+//                 value={email}
+//                 onChange={(e) => setEmail(e.target.value)}
+//                 disabled={loading.signIn || loading.signUP}
+//                 required
+//               />
+//             </div>
+//             <div className={classes.input_group}>
+//               <label htmlFor="password">Password</label>
+//               <input 
+//                 type="password" 
+//                 id="password"
+//                 value={password}
+//                 onChange={(e) => setPassword(e.target.value)}
+//                 disabled={loading.signIn || loading.signUP}
+//                 required
+//               />
+//             </div>
+            
+//             <button 
+//               type="submit"
+//               name="signin"
+//               className={classes.login_signinbutton}
+//               disabled={loading.signIn || loading.signUP}
+//             >
+//               {loading.signIn ? (
+//                 <ClipLoader color="#fff" size={15} />
+//               ) : (
+//                 "Sign In"
+//               )}
+//             </button>
+//           </form>
+          
+//           <p className={classes.terms}>
+//             By signing in you agree to the AMAZON FAKE CLONE Conditions of use and
+//             sale. Please see our Privacy Notice, our Cookie Notice and our
+//             Interest-Based Ads Notice.
+//           </p>
+          
+//           <button 
+//             onClick={handleSignUp}
+//             className={classes.login_registerbutton}
+//             disabled={loading.signIn || loading.signUP}
+//           >
+//             {loading.signUP ? (
+//               <ClipLoader color="#000" size={15} />
+//             ) : (
+//               "Create your Amazon Account"
+//             )}
+//           </button>
+          
+//           <Link to="/" className={classes.back_home}>
+//             ← Back to home
+//           </Link>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
+// export default Auth;
 
 
 // The first push
