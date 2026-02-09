@@ -7,7 +7,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { ClipLoader } from "react-spinners";
-import { DataContext } from "../../Components/DataProvider/DataProvider";
+import { DataContext } from "../../Components/DataProvider/DataContext";
 import { Type } from "../../utility/action.Type";
 function Auth() {
   const [email, setEmail] = useState("");
@@ -188,6 +188,168 @@ const { user, dispatch } = useContext(DataContext);
 }
 
 export default Auth;
+
+
+// The first push
+// import React, { useContext, useState } from "react";
+// import classes from "./Signup.module.css";
+// import { Link, useNavigate } from "react-router-dom";
+// import { auth } from "../../Utility/firebase";
+// import {
+//   signInWithEmailAndPassword,
+//   createUserWithEmailAndPassword,
+// } from "firebase/auth";
+// import { ClipLoader } from "react-spinners";
+// import { DataContext } from "../../components/DataProvider/DataProvider";
+// import { Type } from "../../Utility/action.type";
+
+// function Auth() {
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [error, setError] = useState("");
+//   const [loading, setLoading] = useState({
+//     signIn: false,
+//     signUP: false,
+//   });
+
+//   const [{ user }, dispatch] = useContext(DataContext);
+//   const navigate = useNavigate()
+
+//   const handleSignIn = async (e) => {
+//     e.preventDefault();
+//     setError(""); // Clear previous errors
+//     try {
+//       setLoading({ ...loading, signIn: true });
+//       const userInfo = await signInWithEmailAndPassword(auth, email, password);
+//       dispatch({
+//         type: Type.SET_USER,
+//         user: userInfo.user,
+//       });
+//       setLoading({ ...loading, signIn: false });
+//       navigate("/")
+//     } catch (err) {
+//       setError(err.message);
+//       setLoading({ ...loading, signIn: false });
+//     }
+//   };
+
+//   const handleSignUp = async (e) => {
+//     e.preventDefault();
+//     setError(""); // Clear previous errors
+//     try {
+//       setLoading({ ...loading, signUP: true });
+//       const userInfo = await createUserWithEmailAndPassword(
+//         auth,
+//         email,
+//         password
+//       );
+//       dispatch({
+//         type: Type.SET_USER,
+//         user: userInfo.user,
+//       });
+//       setLoading({ ...loading, signUP: false });
+//       navigate("/");
+
+//     } catch (err) {
+//       setError(err.message);
+//       setLoading({ ...loading, signUP: false });
+//     }
+//   };
+
+//   return (
+//     <section className={classes.login}>
+//       <div className={classes.logo_container}>
+//         <img
+//           src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
+//           alt="Amazon Logo"
+//           className={classes.logo}
+//         />
+
+//         <div className={classes.form_container}>
+//           <h1>Sign In</h1>
+
+//           {error && <p className={classes.error}>{error}</p>}
+
+//           {/* Sign In Form */}
+//           <form onSubmit={handleSignIn}>
+//             <div className={classes.input_group}>
+//               <label htmlFor="email">Email</label>
+//               <input
+//                 type="email"
+//                 id="email"
+//                 value={email}
+//                 onChange={(e) => setEmail(e.target.value)}
+//                 required
+//                 disabled={loading.signIn || loading.signUP}
+//               />
+//             </div>
+
+//             <div className={classes.input_group}>
+//               <label htmlFor="password">Password</label>
+//               <input
+//                 type="password"
+//                 id="password"
+//                 value={password}
+//                 onChange={(e) => setPassword(e.target.value)}
+//                 required
+//                 disabled={loading.signIn || loading.signUP}
+//               />
+//             </div>
+
+//             <button
+//               type="submit"
+//               className={classes.signin_button}
+//               disabled={loading.signIn || loading.signUP}
+//             >
+//               {loading.signIn ? (
+//                 <ClipLoader color="#fff" size={15} />
+//               ) : (
+//                 "Sign In"
+//               )}
+//             </button>
+//           </form>
+
+//           <p className={classes.terms}>
+//             By continuing, you agree to Amazon's Conditions of Use and Privacy
+//             Notice.
+//           </p>
+
+//           <div className={classes.divider}>
+//             <span>New to Amazon?</span>
+//           </div>
+
+//           {/* Create Account Button with its own form */}
+//           <form onSubmit={handleSignUp}>
+//             <button
+//               type="submit"
+//               className={classes.create_account_button}
+//               disabled={loading.signIn || loading.signUP}
+//             >
+//               {loading.signUP ? (
+//                 <ClipLoader color="#000" size={15} />
+//               ) : (
+//                 "Create your Amazon Account"
+//               )}
+//             </button>
+//           </form>
+
+//           <Link to="/" className={classes.back_home}>
+//             ← Back to home
+//           </Link>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
+// export default Auth;
+
+
+
+
+
+
+
 
 
 

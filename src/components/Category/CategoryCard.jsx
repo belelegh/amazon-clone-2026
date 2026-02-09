@@ -1,22 +1,56 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import classes from "./categoryCard.module.css";
 
-function CategoryCard({ data }) {
-  const encodedCategory = encodeURIComponent(data.title); // Encode the category name for URL safety (handles spaces, apostrophes, etc.)// Encode the category name for URL safety (handles spaces, apostrophes, etc.)
+// CategoryCard.jsx - Fixed property name mismatch
+import React from "react";
+import classes from "./Category.module.css";
+import { Link } from "react-router-dom";
+
+const CategoryCard = ({ data }) => {
+  // Add validation to prevent errors
+  // if (!data) {
+  //   return null;
+  // }
 
   return (
     <div className={classes.category}>
-      <Link to={`/category/${encodedCategory}`}>
-        <h2>{data.title}</h2>
-        <img src={data.image} alt={data.title} />
-        <p>Shop now</p>
+      {/* Use Link instead of anchor for React Router */}
+      <Link to={`/category/${data.id}`}>
+        <span>
+          <h2>{data.title}</h2>
+        </span>
+        {/* Fixed: Changed data.imgLink to data.imageLink */}
+        <img
+          src={data.imageLink}
+          alt={data.title || "Category image"}
+          // loading="lazy" // Added for better performance
+        />
+        <p>{data.name || "Shop now"}</p>
       </Link>
     </div>
   );
-}
+};
 
 export default CategoryCard;
+
+
+// import React from "react";
+// import { Link } from "react-router-dom";
+// import classes from "./Category.module.css";
+
+// function CategoryCard({ data }) {
+//   const encodedCategory = encodeURIComponent(data.title); // Encode the category name for URL safety (handles spaces, apostrophes, etc.)// Encode the category name for URL safety (handles spaces, apostrophes, etc.)
+
+//   return (
+//     <div className={classes.category}>
+//       <Link to={`/category/${encodedCategory}`}>
+//         <h2>{data.title}</h2>
+//         <img src={data.image} alt={data.title} />
+//         <p>Shop now</p>
+//       </Link>
+//     </div>
+//   );
+// }
+
+// export default CategoryCard;
 
 
 // CategoryCard.jsx - Fixed property name mismatch

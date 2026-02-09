@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
-import { DataContext } from "../../Components/DataProvider/DataProvider";
+// import { DataContext } from "../../Components/DataProvider/DataProvider";
 import ProductCard from "../../Components/Product/ProductCard";
 import CurrencyFormat from "../../Components/CurrencyFormat/CurrencyFormat";
 import Loader from "../../Components/Loader/Loader";
 
 import classes from "./payment.module.css";
 import { axiosInstance } from "../../API/axios";
-import { Type } from "../../utility/action.Type";
+import { Type } from "../../Utility/action.type";
 
 function Payment() {
   const { state, dispatch } = useContext(DataContext);

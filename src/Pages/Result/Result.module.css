@@ -1,11 +1,11 @@
-.resultsContainer {
+/* .resultsContainer {
   padding: 20px;
 }
 
 .categoryHeader {
   margin-top: 10px;
-  font-size: 18px;
-}
+  font-size: 18px; */
+/* }
 
 .resultsGrid {
   margin-top: 30px;
@@ -22,11 +22,11 @@
   .resultsContainer h1 {
     font-size: 1.6rem;
   }
-}
+} */
 
 
 
-/* .products_container {
+.products_container {
     display: grid;
     grid-template-columns: repeat(aoto-fill, minmax(250px,1fr));
     max-width: 1450px;
@@ -36,4 +36,4 @@
 }
 .products_container section {
     margin: 0 auto;
-} */
+}

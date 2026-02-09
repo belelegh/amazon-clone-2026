@@ -1,89 +1,89 @@
-import React, { useContext } from "react";
-import ProductCard from "../../Components/Product/ProductCard";
-import { DataContext } from "../../Components/DataProvider/DataContext";
-import classes from "./cart.module.css";
-// import CurrencyFormat from "../../Components/CurrencyFormat/CurrencyFormat";
-import { Type } from "../../Utility/action.Type";
-import Subtotal from "../../Components/Subtotal/Subtotal";
-import { IoIosArrowUp } from "react-icons/io";
-import { IoIosArrowDown } from "react-icons/io";
+// // import React, { useContext } from "react";
+// // import ProductCard from "../../Components/Product/ProductCard";
+// // import { DataContext } from "../../Components/DataProvider/DataContext";
+// // import classes from "./cart.module.css";
+// // // import CurrencyFormat from "../../Components/CurrencyFormat/CurrencyFormat";
+// // import { Type } from "../../Utility/action.Type";
+// // import Subtotal from "../../Components/Subtotal/Subtotal";
+// // import { IoIosArrowUp } from "react-icons/io";
+// // import { IoIosArrowDown } from "react-icons/io";
 
-function Cart() {
-  const { state, dispatch } = useContext(DataContext);
-  const { basket, user } = state;
+// // function Cart() {
+// //   const { state, dispatch } = useContext(DataContext);
+// //   const { basket, user } = state;
 
-  const increment = (item) => {
-    dispatch({
-      type: Type.ADD_TO_BASKET,
-      item,
-    });
-  };
+// //   const increment = (item) => {
+// //     dispatch({
+// //       type: Type.ADD_TO_BASKET,
+// //       item,
+// //     });
+// //   };
 
-  const decrement = (id) => {
-    dispatch({
-      type: Type.REMOVE_FROM_BASKET,
-      id,
-    });
-  };
+// //   const decrement = (id) => {
+// //     dispatch({
+// //       type: Type.REMOVE_FROM_BASKET,
+// //       id,
+// //     });
+// //   };
 
-  // const total = basket.reduce(
-  //   (amount, item) => amount + item.price * item.amount,
-  //   0
-  // );
+// //   // const total = basket.reduce(
+// //   //   (amount, item) => amount + item.price * item.amount,
+// //   //   0
+// //   // );
 
-  return (
-    <section className={classes.container}>
-      <div className={classes.Cart__container}>
-        <h2>
-          Hello{" "}
-          {user?.email
-            ? user.email.split("@")[0].charAt(0).toUpperCase() +
-              user.email.split("@")[0].slice(1)
-            : "Guest"}
-        </h2>
-        <h3>Your shopping basket</h3>
-        <hr />
+// //   return (
+// //     <section className={classes.container}>
+// //       <div className={classes.Cart__container}>
+// //         <h2>
+// //           Hello{" "}
+// //           {user?.email
+// //             ? user.email.split("@")[0].charAt(0).toUpperCase() +
+// //               user.email.split("@")[0].slice(1)
+// //             : "Guest"}
+// //         </h2>
+// //         <h3>Your shopping basket</h3>
+// //         <hr />
 
-        {basket.length === 0 ? (
-          <p>Oops : No item in your cart</p>
-        ) : (
-          basket.map((item) => (
-            <section key={item.id} className={classes.cartItem}>
-              <ProductCard
-                product={item}
-                renderDesc={true}
-                renderAddBtn={false}
-                flex={true}
-              />
+// //         {basket.length === 0 ? (
+// //           <p>Oops : No item in your cart</p>
+// //         ) : (
+// //           basket.map((item) => (
+// //             <section key={item.id} className={classes.cartItem}>
+// //               <ProductCard
+// //                 product={item}
+// //                 renderDesc={true}
+// //                 renderAddBtn={false}
+// //                 flex={true}
+// //               />
 
-              <div className={classes.itembtn}>
-                <button onClick={() => increment(item)}>
-                  <IoIosArrowUp />
-                </button>
-                <span className={classes.amount}>{item.amount}</span>
-                <button onClick={() => decrement(item.id)}>
-                  <IoIosArrowDown />
-                </button>
-              </div>
-            </section>
-          ))
-        )}
-      </div>
+// //               <div className={classes.itembtn}>
+// //                 <button onClick={() => increment(item)}>
+// //                   <IoIosArrowUp />
+// //                 </button>
+// //                 <span className={classes.amount}>{item.amount}</span>
+// //                 <button onClick={() => decrement(item.id)}>
+// //                   <IoIosArrowDown />
+// //                 </button>
+// //               </div>
+// //             </section>
+// //           ))
+// //         )}
+// //       </div>
 
-      <div className={classes.totalBox}>
-        <Subtotal />
-      </div>
-    </section>
-  );
-}
+// //       <div className={classes.totalBox}>
+// //         <Subtotal />
+// //       </div>
+// //     </section>
+// //   );
+// // }
 
-export default Cart;
+// // export default Cart;
 
 
 
 // import React, { useContext } from "react";
 // import Layout from "../../components/Layout/Layout";
-// import { DataContext } from "../../components/DataProvider/DataProvider";
+// import { DataContext } from "../../Components/DataProvider/DataContext";
 // import ProductCard from "../../components/Product/ProductCard";
 // import { Link } from "react-router-dom";
 // import classes from "../Cart/Cart.module.css";
@@ -206,43 +206,164 @@ export default Cart;
 //           )}
 //         </div>
 //       </section>
+// //     </Layout>
+// //   );
+// // }
+
+// // export default Cart;
+
+// import React, { useContext } from "react";
+// import Layout from "../../components/Layout/Layout";
+// import { DataContext } from "../../Components/DataProvider/DataContext";
+// import ProductCard from "../../components/Product/ProductCard";
+// import { Link } from "react-router-dom";
+// import classes from "../Cart/Cart.module.css";
+// import { Type } from "../../Utility/action.Type";
+// import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+
+// function Cart() {
+  
+//   const { state, dispatch } = useContext(DataContext);
+//   const { basket = [], user } = state || {}; // Add default empty array
+
+//   // Calculate subtotal - CONSISTENT: use item.amount
+//   const subtotal = basket
+//     .reduce((total, item) => total + (item.price || 0) * (item.amount || 1), 0)
+//     .toFixed(2);
+
+//   const increment = (item) => {
+//     if (!dispatch) {
+//       console.error("dispatch is undefined!");
+//       return;
+//     }
+    
+//     dispatch({
+//       type: Type.ADD_TO_BASKET,
+//       item: {
+//         ...item,
+//         // Ensure amount property exists
+//         amount: item.amount || 1
+//       },
+//     });
+//   };
+
+//   const decrement = (id) => {
+//     if (!dispatch) {
+//       console.error("dispatch is undefined!");
+//       return;
+//     }
+    
+//     dispatch({
+//       type: Type.REMOVE_FROM_BASKET,
+//       id,
+//     });
+//   };
+
+//   // Calculate total items - CONSISTENT: use item.amount
+//   const totalItems = basket.reduce(
+//     (total, item) => total + (item.amount || 1),
+//     0
+//   );
+
+//   return (
+//     <Layout>
+//       <section className={classes.container}>
+//         <div className={classes.cart_container}>
+//           {/* Cart Items */}
+//           <div className={classes.cart_items}>
+//             <h3 className={classes.greeting}>
+//               Hello, {user?.email?.split("@")[0] || "Guest"}
+//             </h3>
+//             <h2 className={classes.title}>Your Shopping Cart</h2>
+//             <hr className={classes.divider} />
+
+//             {basket.length === 0 ? (
+//               <div className={classes.empty_cart}>
+//                 <p className={classes.empty_message}>
+//                   Oops! No items in your cart
+//                 </p>
+//                 <Link to="/" className={classes.continue_shopping}>
+//                   Continue Shopping
+//                 </Link>
+//               </div>
+//             ) : (
+//               <div>
+//                 {basket.map((item, i) => (
+//                   <section
+//                     key={item.id || i}
+//                     className={classes.cart_item_wrapper}
+//                   >
+//                     <ProductCard
+//                       key={i}
+//                       product={item}
+//                       renderDesc={true}
+//                       renderAddBtn={false}
+//                       flex={true}
+//                     />
+//                     <div className={classes.quantity_controls}>
+//                       <button
+//                         className={classes.quantity_button}
+//                         onClick={() => increment(item)}
+//                       >
+//                         <IoIosArrowUp size={30} />
+//                       </button>
+//                       <span className={classes.quantity_display}>
+//                         Qty: {item.amount || 1}
+//                       </span>
+//                       <button
+//                         className={classes.quantity_button}
+//                         onClick={() => decrement(item.id)}
+//                       >
+//                         <IoIosArrowDown size={30} />
+//                       </button>
+//                     </div>
+//                   </section>
+//                 ))}
+//               </div>
+//             )}
+//           </div>
+
+//           {/* Order Summary */}
+//           {basket.length > 0 && (
+//             <div className={classes.order_summary}>
+//               <h3 className={classes.summary_title}>Order Summary</h3>
+//               <div className={classes.subtotal}>
+//                 <span>
+//                   Subtotal ({totalItems} {totalItems === 1 ? "item" : "items"}):
+//                 </span>
+//                 <span className={classes.subtotal_amount}>${subtotal}</span>
+//               </div>
+
+//               <button className={classes.checkout_button}>
+//                 Proceed to Checkout
+//               </button>
+
+//               <p className={classes.shipping_note}>
+//                 Shipping and taxes calculated at checkout
+//               </p>
+//             </div>
+//           )}
+//         </div>
+//       </section>
 //     </Layout>
 //   );
 // }
 
 // export default Cart;
 
-
-
-
-
-
-
-
-
-
-
-
 // import React, { useContext } from "react";
-// import Layout from "../../components/Layout/Layout";
-// import { DataContext } from "../../components/DataProvider/DataProvider";
-// import ProductCard from "../../components/Product/ProductCard";
-// import { Link } from "react-router-dom";
-// import classes from "../Cart/Cart.module.css";
-// import { Type } from "../../Utility/action.type";
-// import { IoIosArrowDown } from "react-icons/io";
+// import ProductCard from "../../Components/Product/ProductCard";
+// import { DataContext } from "../../Components/DataProvider/DataContext";
+// import classes from "./cart.module.css";
+// // import CurrencyFormat from "../../Components/CurrencyFormat/CurrencyFormat";
+// import { Type } from "../../Utility/action.Type";
+// import Subtotal from "../../Components/Subtotal/Subtotal";
 // import { IoIosArrowUp } from "react-icons/io";
+// import { IoIosArrowDown } from "react-icons/io";
+
 // function Cart() {
 //   const { state, dispatch } = useContext(DataContext);
 //   const { basket, user } = state;
-
-//   // Calculate subtotal
-//   const subtotal = basket
-//     ?.reduce((total, item) => total + item.price * (item.quantity || 1), 0)
-//     .toFixed(2);
-//   // const subtotal = basket
-//   //   ?.reduce((total, item) => total + item.price * (item.amount || 0), 0)
-//   //   .toFixed(2);
 
 //   const increment = (item) => {
 //     dispatch({
@@ -258,7 +379,94 @@ export default Cart;
 //     });
 //   };
 
+//   // const total = basket.reduce(
+//   //   (amount, item) => amount + item.price * item.amount,
+//   //   0
+//   // );
 
+//   return (
+//     <section className={classes.container}>
+//       <div className={classes.Cart__container}>
+//         <h2>
+//           Hello{" "}
+//           {user?.email
+//             ? user.email.split("@")[0].charAt(0).toUpperCase() +
+//               user.email.split("@")[0].slice(1)
+//             : "Guest"}
+//         </h2>
+//         <h3>Your shopping basket</h3>
+//         <hr />
+
+//         {basket.length === 0 ? (
+//           <p>Oops : No item in your cart</p>
+//         ) : (
+//           basket.map((item) => (
+//             <section key={item.id} className={classes.cartItem}>
+//               <ProductCard
+//                 product={item}
+//                 renderDesc={true}
+//                 renderAddBtn={false}
+//                 flex={true}
+//               />
+
+//               <div className={classes.itembtn}>
+//                 <button onClick={() => increment(item)}>
+//                   <IoIosArrowUp />
+//                 </button>
+//                 <span className={classes.amount}>{item.amount}</span>
+//                 <button onClick={() => decrement(item.id)}>
+//                   <IoIosArrowDown />
+//                 </button>
+//               </div>
+//             </section>
+//           ))
+//         )}
+//       </div>
+
+//       <div className={classes.totalBox}>
+//         <Subtotal />
+//       </div>
+//     </section>
+//   );
+// }
+
+// export default Cart;
+
+// the first push 
+// import React, { useContext } from "react";
+// import Layout from "../../components/Layout/Layout";
+// import { DataContext } from "../../components/DataProvider/DataProvider";
+// import ProductCard from "../../components/Product/ProductCard";
+// import { Link } from "react-router-dom";
+// import classes from "../Cart/Cart.module.css";
+// import { Type } from "../../Utility/action.type";
+// import { IoIosArrowDown } from "react-icons/io";
+// import { IoIosArrowUp } from "react-icons/io";
+// function Cart() {
+//   const { state, dispatch } = useContext(DataContext);
+//   const { basket, user } = state;
+
+//   // Calculate subtotal
+//   // const subtotal = basket
+//   //   ?.reduce((total, item) => total + item.price * (item.quantity || 1), 0)
+//   //   .toFixed(2);
+//   const subtotal = basket
+//     ?.reduce((total, item) => total + item.price * (item.amount || 0), 0)
+//     .toFixed(2);
+
+//   const increment = (item) => {
+//     dispatch({
+//       type: Type.ADD_TO_BASKET,
+//       item,
+//     });
+//   };
+
+//   const decrement = (id) => {
+//     dispatch({
+//       type: Type.REMOVE_FROM_BASKET,
+//       id,
+//     });
+//   };
 
 //   return (
 //     <Layout>
@@ -343,6 +551,161 @@ export default Cart;
 //                 <span className={classes.subtotal_amount}>${subtotal}</span>
 //               </div>
 
+//               <button className={classes.checkout_button}>
+//                 Proceed to Checkout
+//               </button>
+
+//               <p className={classes.shipping_note}>
+//                 Shipping and taxes calculated at checkout
+//               </p>
+//             </div>
+//           )}
+//         </div>
+//       </section>
+//     </Layout>
+//   );
+// }
+
+// export default Cart;
+
+
+
+
+
+
+
+// import React, { useContext } from "react";
+// import Layout from "../../components/Layout/Layout";
+// import { DataContext } from "../../Components/DataProvider/DataContext";
+// import ProductCard from "../../components/Product/ProductCard";
+// import { Link } from "react-router-dom";
+// import classes from "../Cart/Cart.module.css";
+// import { Type } from "../../Utility/action.type";
+// import { IoIosArrowDown } from "react-icons/io";
+// import { IoIosArrowUp } from "react-icons/io";
+// function Cart() {
+//   const { state, dispatch } = useContext(DataContext);
+//   const { basket, user } = state;
+
+//   // Calculate subtotal
+
+//   const subtotal = basket
+//   ?.reduce((total, item) => total + item.price * item.amount, 0)
+//   .toFixed(2);
+
+
+
+//   // const subtotal = basket
+//   //   ?.reduce((total, item) => total + item.price * (item.amount || 0), 0)
+//   //   .toFixed(2);
+
+//   const increment = (item) => {
+//     dispatch({
+//       type: Type.ADD_TO_BASKET,
+//       item,
+//     });
+//   };
+
+//   const decrement = (id) => {
+//     dispatch({
+//       type: Type.REMOVE_FROM_BASKET,
+//       id,
+//     });
+//   };
+
+
+
+//   return (
+//     <Layout>
+//       <section className={classes.container}>
+//         <div className={classes.cart_container}>
+//           {/* Cart Items */}
+//           <div className={classes.cart_items}>
+//             <h3 className={classes.greeting}>
+//               Hello, {user?.email?.split("@")[0] || "Guest"}
+//             </h3>
+//             <h2 className={classes.title}>Your Shopping Cart</h2>
+//             <hr className={classes.divider} />
+
+//             {basket?.length === 0 ? (
+//               <div className={classes.empty_cart}>
+//                 <p className={classes.empty_message}>
+//                   Oops! No items in your cart
+//                 </p>
+//                 <Link to="/" className={classes.continue_shopping}>
+//                   Continue Shopping
+//                 </Link>
+//               </div>
+//             ) : (
+//               <div>
+//                 {basket?.map((item, i) => (
+//                   <section
+//                     key={item.id || i}
+//                     className={classes.cart_item_wrapper}
+//                   >
+//                     <ProductCard
+//                       key={i}
+//                       product={item}
+//                        renderDesc={true}
+//                        renderAddBtn={false}
+//                        flex={true}
+//                        />
+
+//                       {/* renderDesc={true}
+//                       renderAdd={false}
+//                       flex={true}
+//                       isCartItem={true}
+//                       dispatch={dispatch}
+//                     /> */}
+//                     <div className={classes.quantity_controls}>
+//                       <button
+//                         className={classes.quantity_button}
+//                         onClick={() => increment(item)}
+//                       >
+//                         <IoIosArrowUp size={30} />
+//                       </button>
+//                      <span className={classes.quantity_display}>
+//   Qty: {item.amount}
+// </span>
+
+//                       {/* <span className={classes.quantity_display}>
+//                         Qty: {item.amount || 1}
+//                       </span> */}
+//                       <button
+//                         className={classes.quantity_button}
+//                         onClick={() => decrement(item.id)}
+//                       >
+//                         <IoIosArrowDown size={30} />
+//                       </button>
+//                     </div>
+//                   </section>
+//                 ))}
+//               </div>
+//             )}
+//           </div>
+
+//           {/* Order Summary */}
+//           {basket?.length > 0 && (
+//             <div className={classes.order_summary}>
+//               <h3 className={classes.summary_title}>Order Summary</h3>
+//               <div className={classes.subtotal}>
+//                 <span>
+//                   Subtotal (
+//                   {basket.reduce(
+//                     (total, item) => total + (item.quantity || 1),
+//                     0
+//                   )}{" "}
+//                   {basket.reduce(
+//                     (total, item) => total + (item.quantity || 1),
+//                     0
+//                   ) === 1
+//                     ? "item"
+//                     : "items"}
+//                   ):
+//                 </span>
+//                 <span className={classes.subtotal_amount}>${subtotal}</span>
+//               </div>
+
 //               <button  className={classes.checkout_button}>
 //                 Proceed to Checkout
 //               </button>
@@ -359,3 +722,143 @@ export default Cart;
 // }
 
 // export default Cart;
+
+
+import React, { useContext } from "react";
+import Layout from "../../components/Layout/Layout";
+import { DataContext } from "../../components/DataProvider/DataProvider";
+import ProductCard from "../../components/Product/ProductCard";
+import { Link } from "react-router-dom";
+import classes from "./Cart.module.css";
+import { useNavigate } from "react-router-dom";
+
+import { Type } from "../../utility/action.type";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
+function Cart() {
+  const { state, dispatch } = useContext(DataContext);
+  const { basket, user } = state;
+const navigate = useNavigate();
+
+  // Calculate subtotal
+  // const subtotal = basket
+  //   ?.reduce((total, item) => total + item.price * (item.quantity || 1), 0)
+  //   .toFixed(2);
+  const subtotal = basket
+    ?.reduce((total, item) => total + item.price * (item.amount || 0), 0)
+    .toFixed(2);
+
+  const increment = (item) => {
+    dispatch({
+      type: Type.ADD_TO_BASKET,
+      item,
+    });
+  };
+
+  const decrement = (id) => {
+    dispatch({
+      type: Type.REMOVE_FROM_BASKET,
+      id,
+    });
+  };
+
+  return (
+    <Layout>
+      <section className={classes.container}>
+        <div className={classes.cart_container}>
+          {/* Cart Items */}
+          <div className={classes.cart_items}>
+            <h3 className={classes.greeting}>
+              Hello, {user?.email?.split("@")[0] || "Guest"}
+            </h3>
+            <h2 className={classes.title}>Your Shopping Cart</h2>
+            <hr className={classes.divider} />
+
+            {basket?.length === 0 ? (
+              <div className={classes.empty_cart}>
+                <p className={classes.empty_message}>
+                  Oops! No items in your cart
+                </p>
+                <Link to="/" className={classes.continue_shopping}>
+                  Continue Shopping
+                </Link>
+              </div>
+            ) : (
+              <div>
+                {basket?.map((item, i) => (
+                  <section
+                    key={item.id || i}
+                    className={classes.cart_item_wrapper}
+                  >
+                    <ProductCard
+                      key={i}
+                      product={item}
+                      renderDesc={true}
+                      renderAdd={false}
+                      flex={true}
+                      isCartItem={true}
+                      dispatch={dispatch}
+                    />
+                    <div className={classes.quantity_controls}>
+                      <button
+                        className={classes.quantity_button}
+                        onClick={() => increment(item)}
+                      >
+                        <IoIosArrowUp size={30} />
+                      </button>
+
+                      <span className={classes.quantity_display}>
+                        Qty: {item.amount || 1}
+                      </span>
+                      <button
+                        className={classes.quantity_button}
+                        onClick={() => decrement(item.id)}
+                      >
+                        <IoIosArrowDown size={30} />
+                      </button>
+                    </div>
+                  </section>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Order Summary */}
+          {basket?.length > 0 && (
+            <div className={classes.order_summary}>
+              <h3 className={classes.summary_title}>Order Summary</h3>
+              <div className={classes.subtotal}>
+                <span>
+                  Subtotal (
+                  {basket.reduce(
+                    (total, item) => total + (item.quantity || 1),
+                    0
+                  )}{" "}
+                  {basket.reduce(
+                    (total, item) => total + (item.quantity || 1),
+                    0
+                  ) === 1
+                    ? "item"
+                    : "items"}
+                  ):
+                </span>
+                <span className={classes.subtotal_amount}>${subtotal}</span>
+              </div>
+
+              <button className={classes.checkout_button} onClick={() => navigate("/Auth")}>
+                Proceed to Checkout
+              </button>
+
+              <p className={classes.shipping_note}>
+                Shipping and taxes calculated at checkout
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+    </Layout>
+  );
+}
+
+
+export default Cart;

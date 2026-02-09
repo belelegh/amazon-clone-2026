@@ -1,61 +1,71 @@
 import { useReducer } from "react";
-// import { Type } from "./action.type";
+import { Type } from "./action.type";
 
 export const initialState = {
   basket: [],
-  user: null,
+  user: null, 
 };
 
-const reducer = (state, action) => {
-  console.log("STATE:", state);
-  console.log("ACTION:", action);
-
+export const reducer = (state, action) => {
   switch (action.type) {
-    case Type.ADD_TO_BASKET: {
-      const existingItem = state.basket.find(
+    case Type.ADD_TO_BASKET:
+      const existingItemIndex = state.basket.findIndex(
         (item) => item.id === action.item.id
       );
 
-      if (existingItem) {
+      if (existingItemIndex === -1) {
+        // Item doesn't exist in basket, add it with amount: 1
         return {
           ...state,
-          basket: state.basket.map((item) =>
-            item.id === action.item.id
-              ? { ...item, amount: item.amount + 1 }
-              : item
-          ),
+          basket: [...state.basket, { ...action.item, amount: 1 }],
         };
+        console.log("New basket after ADD (new item):", newState.basket);
+                return newState;
+      } else {
+        // Item exists, increment amount
+        const updatedBasket = state.basket.map((item, index) => {
+          if (index === existingItemIndex) {
+            return { ...item, amount: (item.amount || 0) + 1 };
+          }
+          return item;
+        });
+
+        return {
+          ...state,
+          basket: updatedBasket,
+        };
+           console.log(
+             "New basket after ADD (existing item):",
+             newState.basket
+           );
+           return newState;
       }
 
-      return {
-        ...state,
-        basket: [...state.basket, { ...action.item, amount: 1 }],
-      };
-    }
-
-    case Type.REMOVE_FROM_BASKET: {
+    case Type.REMOVE_FROM_BASKET:
       const index = state.basket.findIndex((item) => item.id === action.id);
 
-      if (index === -1) return state;
+      if (index >= 0) {
+        let newBasket = [...state.basket];
 
-      const newBasket = [...state.basket];
+        if (newBasket[index].amount > 1) {
+          // Decrement amount if more than 1
+          newBasket[index] = {
+            ...newBasket[index],
+            amount: newBasket[index].amount - 1,
+          };
+        } else {
+          // Remove item if amount is 1
+          newBasket.splice(index, 1);
+        }
 
-      if (newBasket[index].amount > 1) {
-        newBasket[index] = {
-          ...newBasket[index],
-          amount: newBasket[index].amount - 1,
+        return {
+          ...state,
+          basket: newBasket,
         };
-      } else {
-        newBasket.splice(index, 1);
       }
+      return state; // Return state if item not found
 
-      return {
-        ...state,
-        basket: newBasket,
-      };
-    }
-
-    case "EMPTY_BASKET":
+    case Type.CLEAR_BASKET:
       return {
         ...state,
         basket: [],
@@ -66,12 +76,191 @@ const reducer = (state, action) => {
         ...state,
         user: action.user,
       };
+
+    case Type.EMPTY_BASKET:
+      return {
+        ...state,
+        basket: [],
+      };
+
     default:
       return state;
   }
 };
 
-export default reducer;
+// Optional: Action creator functions
+export const addToBasket = (item) => ({
+  type: Type.ADD_TO_BASKET,
+  item,
+});
+
+export const removeFromBasket = (id) => ({
+  type: Type.REMOVE_FROM_BASKET,
+  id,
+});
+
+export const clearBasket = () => ({
+  type: Type.CLEAR_BASKET,
+});
+
+export const setUser = (user) => ({
+  type: Type.SET_USER,
+  user,
+});
+
+export const emptyBasket = () => ({
+  type: Type.EMPTY_BASKET,
+});
+
+
+
+// import { useReducer } from "react";
+// import { Type } from "./action.type";
+
+// export const initialState = {
+//   basket: [],
+//   user: null,
+// };
+
+// export const reducer = (state, action) => {
+//   console.log("Reducer Action:", action.type, action);
+  
+//   switch (action.type) {
+//     case Type.ADD_TO_BASKET: {
+//       const { item } = action;
+//       const existingIndex = state.basket.findIndex(
+//         (basketItem) => basketItem.id === item.id
+//       );
+      
+//       if (existingIndex >= 0) {
+//         // Item exists - increment amount
+//         const updatedBasket = [...state.basket];
+//         updatedBasket[existingIndex] = {
+//           ...updatedBasket[existingIndex],
+//           amount: (updatedBasket[existingIndex].amount || 1) + 1
+//         };
+        
+//         return {
+//           ...state,
+//           basket: updatedBasket
+//         };
+//       } else {
+//         // New item - add with amount 1
+//         return {
+//           ...state,
+//           basket: [...state.basket, { ...item, amount: 1 }]
+//         };
+//       }
+//     }
+    
+//     case Type.REMOVE_FROM_BASKET: {
+//       const { id } = action;
+//       const existingIndex = state.basket.findIndex(
+//         (item) => item.id === id
+//       );
+      
+//       if (existingIndex >= 0) {
+//         const item = state.basket[existingIndex];
+        
+//         if ((item.amount || 1) > 1) {
+//           // Decrease amount
+//           const updatedBasket = [...state.basket];
+//           updatedBasket[existingIndex] = {
+//             ...item,
+//             amount: (item.amount || 1) - 1
+//           };
+          
+//           return {
+//             ...state,
+//             basket: updatedBasket
+//           };
+//         } else {
+//           // Remove item entirely
+//           const updatedBasket = state.basket.filter(
+//             (item) => item.id !== id
+//           );
+          
+//           return {
+//             ...state,
+//             basket: updatedBasket
+//           };
+//         }
+//       }
+//       return state;
+//     }
+    
+//     // ... other cases
+    
+//     default:
+//       return state;
+//   }
+// };
+// export const reducer = (state, action) => {
+//   console.log("STATE:", state);
+//   console.log("ACTION:", action);
+
+//   switch (action.type) {
+//     case Type.ADD_TO_BASKET: {
+//       const existingItem = state.basket.find(
+//         (item) => item.id === action.item.id
+//       );
+
+//       if (existingItem) {
+//         return {
+//           ...state,
+//           basket: state.basket.map((item) =>
+//             item.id === action.item.id
+//               ? { ...item, amount: item.amount + 1 }
+//               : item
+//           ),
+//         };
+//       }
+
+//       return {
+//         ...state,
+//         basket: [...state.basket, { ...action.item, amount: 1 }],
+//       };
+//     }
+
+//     case Type.REMOVE_FROM_BASKET: {
+//       const index = state.basket.findIndex((item) => item.id === action.id);
+
+//       if (index === -1) return state;
+
+//       const newBasket = [...state.basket];
+
+//       if (newBasket[index].amount > 1) {
+//         newBasket[index] = {
+//           ...newBasket[index],
+//           amount: newBasket[index].amount - 1,
+//         };
+//       } else {
+//         newBasket.splice(index, 1);
+//       }
+
+//       return {
+//         ...state,
+//         basket: newBasket,
+//       };
+//     }
+
+//     case "EMPTY_BASKET":
+//       return {
+//         ...state,
+//         basket: [],
+//       };
+
+//     case Type.SET_USER:
+//       return {
+//         ...state,
+//         user: action.user,
+//       };
+//     default:
+//       return state;
+//   }
+// };
+
+// export default reducer;
 
 
 // import { useReducer } from "react";
